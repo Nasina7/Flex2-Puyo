@@ -1024,7 +1024,7 @@ ms@2.1.2:
 
 "node-sass@git+https://github.com/TomiBelan/node-sass-wasm#built/master":
   version "0.1.0"
-  resolved "git+ssh://git@github.com/TomiBelan/node-sass-wasm.git#97014c5d3de9063ebb522e31617c9be84e5ac22a"
+  resolved "git+https://github.com/TomiBelan/node-sass-wasm#97014c5d3de9063ebb522e31617c9be84e5ac22a"
 
 normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
