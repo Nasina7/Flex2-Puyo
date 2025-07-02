@@ -35,7 +35,7 @@ export function writeASM(baseLabel, { sections }) {
                     const tSize = sizes[size] || '?';
                     const tLabel = getLabel(data);
                     if (labelCache.has(tLabel)) {
-                        output.push(`\tdc.${tSize} ${tLabel}-${baseLabel}\n`);
+                        output.push(`\tdc.${tSize} ${tLabel}\n`);
                     } else {
                         output.push(`\tdc.${tSize} $${data.toString(16).toUpperCase()}\n`);
                     }
