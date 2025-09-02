@@ -35,7 +35,7 @@ mappings([
           mapping.palette = read(2);
           mapping.vflip = read(1);
           mapping.hflip = read(1);
-          mapping.art = read(11) - offset;
+          mapping.art = read(11);
           mapping.left = read(dc.w, signed);
           if (frameIndex === quantity - 1) return endFrame;
         })
@@ -53,7 +53,7 @@ mappings([
         write(2, mapping.palette);
         write(1, mapping.vflip);
         write(1, mapping.hflip);
-        write(11, mapping.art + offset);
+        write(11, mapping.art);
         write(dc.w, mapping.left);
       };
     },
@@ -63,7 +63,8 @@ mappings([
 asm(({ addScript, importScript, writeMappings, writeDPLCs }) => {
   importScript("MapMacros.asm");
 
-  writeMappings(({ label, sprites, renderHex }) => {
+  writeMappings(({ label, sprites, renderHex, tes }) => {
+    console.log(sprites);
     const list = [];
 
     list.push(`${label}: mappingsTable`);
@@ -81,7 +82,8 @@ asm(({ addScript, importScript, writeMappings, writeDPLCs }) => {
           mapping.top,
           mapping.width,
           mapping.height,
-          mapping.art + offset,
+          mapping.art + sprites.tile_offset,
+          //mapping.art,
           mapping.hflip,
           mapping.vflip,
           mapping.palette,

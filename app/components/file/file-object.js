@@ -95,7 +95,6 @@ export const FileObject = observer(({ obj }) => {
     function loadArt(e) {
         ioWrap(obj.art.path, setArtError, e, async (path) => {
             const buffer = (await fs.readFile(path)).slice(obj.art.offset || 0);
-
             if (script.art) {
                 environment.tiles.replace(script.readArt(buffer));
             } else {
@@ -137,8 +136,20 @@ export const FileObject = observer(({ obj }) => {
             if (!obj.dplcs.enabled) environment.config.dplcsEnabled = false;
             const buffer = await getBuffer(path, mappingsASM);
 
-            const mappings = script.readMappings(buffer);
+            let mappings = script.readMappings(buffer);
+
             if (mappings.error) throw mappings.error;
+            
+            mappings.sprites.forEach((mapping) => {
+                mapping.forEach((map) => {
+                    if (!map.tile_offset_applied) {
+                        map.art -= parseInt(obj.mappings.tile_offset, 16);
+                        map.tile_offset_applied = true;
+                    }
+
+                })
+            });
+
             environment.mappings.replace(mappings.sprites);
             if (
                 obj.dplcs.enabled &&
@@ -160,12 +171,20 @@ export const FileObject = observer(({ obj }) => {
 
     function saveMappings(e) {
         ioWrap(obj.mappings.path, setMappingError, e, async (path) => {
+
             const mappings = script.writeMappings(environment.mappings);
+            
             if (mappings.error) throw mappings.error;
             if (!mappingsASM) {
                 await fs.writeFile(path, writeBIN(mappings));
             } else {
                 const label = obj.mappings.label || 'Map_' + uuid().slice(0, 4);
+
+                // Was having trouble passing this value into the script, 
+                // but this works.
+                environment.sprites.tile_offset = parseInt(obj.mappings.tile_offset, 16);
+                
+                console.log(environment.sprites);
                 const asmOutput = script.generateMappingsASM({
                     label,
                     listing: mappings,
@@ -322,6 +341,10 @@ export const FileObject = observer(({ obj }) => {
                     <Input store={obj.mappings} accessor="label" />
                 </div>
             )}
+            <div className="menu-item">
+                <Item>Tile Offset (No 0x Prefix)</Item>
+                <Input store={obj.mappings} accessor="tile_offset" />
+            </div>
 
             {script.DPLCs && (
                 <>

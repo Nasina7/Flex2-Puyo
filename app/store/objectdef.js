@@ -1,7 +1,7 @@
 import { observable, makeObservable } from 'mobx';
 
 export class ObjectDef {
-    format = 'Sonic 1.js';
+    format = 'Puyo.js';
 
     name = 'object';
     palettes = [];
@@ -13,6 +13,7 @@ export class ObjectDef {
     mappings = {
         path: '',
         label: '',
+        tile_offset: 0x0,
     };
     dplcs = {
         enabled: false,
