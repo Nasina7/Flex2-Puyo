@@ -109,7 +109,7 @@ export const FileObject = observer(({ obj }) => {
 
     function saveArt(e) {
         ioWrap(obj.art.path, setArtError, e, async (path) => {
-            if (obj.art.offset) {
+            if (obj.art.offset && obj.art.offset !== 0) {
                 throw new Error('Can only save art at offset 0');
             }
             const tiles = script.art
@@ -171,7 +171,6 @@ export const FileObject = observer(({ obj }) => {
 
     function saveMappings(e) {
         ioWrap(obj.mappings.path, setMappingError, e, async (path) => {
-
             const mappings = script.writeMappings(environment.mappings);
             
             if (mappings.error) throw mappings.error;
@@ -184,7 +183,6 @@ export const FileObject = observer(({ obj }) => {
                 // but this works.
                 environment.sprites.tile_offset = parseInt(obj.mappings.tile_offset, 16);
                 
-                console.log(environment.sprites);
                 const asmOutput = script.generateMappingsASM({
                     label,
                     listing: mappings,
@@ -296,6 +294,7 @@ export const FileObject = observer(({ obj }) => {
                     <SaveLoad load={loadObject} save={saveObject}></SaveLoad>
                 </div>
             </div>
+            <hr color="gray"/>
             <div className="menu-item">
                 <Item color="green">Art</Item>
                 <SaveLoad load={loadArt} save={saveArt} />
@@ -323,7 +322,7 @@ export const FileObject = observer(({ obj }) => {
                 accessor="path"
                 absolute={isAbsolute}
             />
-
+            <hr color="gray"/>
             <div className="menu-item">
                 <Item color="yellow">Mappings</Item>
                 <SaveLoad load={loadMappings} save={saveMappings} />
@@ -342,7 +341,7 @@ export const FileObject = observer(({ obj }) => {
                 </div>
             )}
             <div className="menu-item">
-                <Item>Tile Offset (No 0x Prefix)</Item>
+                <Item>Tile ID Offset</Item>
                 <Input store={obj.mappings} accessor="tile_offset" />
             </div>
 
@@ -375,7 +374,7 @@ export const FileObject = observer(({ obj }) => {
                     )}
                 </>
             )}
-
+            <hr color="gray"/>
             <div className="menu-item">
                 <Item color="magenta">Palettes</Item>
                 <SaveLoad load={loadPalettes} save={savePalettes} />

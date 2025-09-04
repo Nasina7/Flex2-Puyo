@@ -63,8 +63,7 @@ mappings([
 asm(({ addScript, importScript, writeMappings, writeDPLCs }) => {
   importScript("MapMacros.asm");
 
-  writeMappings(({ label, sprites, renderHex, tes }) => {
-    console.log(sprites);
+  writeMappings(({ label, sprites, renderHex }) => {
     const list = [];
 
     list.push(`${label}: mappingsTable`);
