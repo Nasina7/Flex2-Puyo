@@ -1,9 +1,5 @@
 // Flex 2 Mapping Definition - Puyo Puyo / Mean Bean Machine
 
-// Set VRAM tile offset here
-// (For example, art/cutscene/general/arle.puyo is loaded starting at VRAM tile 0x300)
-const offset = 0x0;
-
 const {
   mappings,
   dplcs,
@@ -82,7 +78,6 @@ asm(({ addScript, importScript, writeMappings, writeDPLCs }) => {
           mapping.width,
           mapping.height,
           mapping.art + sprites.tile_offset,
-          //mapping.art,
           mapping.hflip,
           mapping.vflip,
           mapping.palette,
