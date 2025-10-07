@@ -121,11 +121,11 @@ const SortableMappingItem = SortableElement(
                 </div>
                 <div className="datum">
                     <div className="label">link</div>
-                    <Select
+                    <Input
                         store={mapping}
                         accessor="link"
-                        options={[0, 1, 2, 3]}
-                        flipScroll
+                        assert={isNumber}
+                        isNumber
                     />
                 </div>
             </div>
@@ -247,6 +247,10 @@ export const RawEditor = observer(
             const {
                 currentSprite: { mappings },
             } = environment;
+            let link = 0;
+            if (mappings.length !== 0) {
+                link = mappings[mappings.length - 1].link;
+            }
             mappings.push({
                 art: 0,
                 priority: false,
@@ -257,7 +261,7 @@ export const RawEditor = observer(
                 vflip: false,
                 hflip: false,
                 palette: 0,
-                link: 0,
+                link: link,
             });
         };
 

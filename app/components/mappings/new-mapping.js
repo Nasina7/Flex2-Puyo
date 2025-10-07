@@ -52,6 +52,13 @@ export const NewMapping = observer(
                                 const { newMapping, scale } = mappingState;
                                 const [x, y] = (this.pos = mouse(this.node));
                                 const [pieceX, pieceY] = mouse(node);
+                                const {
+                                    currentSprite: { mappings },
+                                } = environment;
+                                let link = 0;
+                                if (mappings.length !== 0) {
+                                    link = mappings[mappings.length - 1].link;
+                                }
 
                                 newMapping.piece = Object.assign(
                                     {},
@@ -59,6 +66,7 @@ export const NewMapping = observer(
                                     {
                                         top: (y / scale - pieceY / 4) | 0,
                                         left: (x / scale - pieceX / 4) | 0,
+                                        link: link,
                                     },
                                 );
                             })
