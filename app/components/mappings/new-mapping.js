@@ -11,7 +11,6 @@ import { Checkbox, Button, Modal } from '#ui';
 const baseConfig = {
     hflip: false,
     vflip: false,
-    palette: 0,
     top: 0,
     left: 0,
     priority: false,
@@ -43,6 +42,20 @@ export const NewMapping = observer(
         mapDefz = [];
 
         dragPlacementFactory = (index) => {
+            let pal = environment.custom.art_panel_palette;
+            if(pal != '') {
+                pal = parseInt(pal);
+                if(!isNaN(pal)) {
+                    if (pal < 0 || pal > 3) {
+                        pal = 0;
+                    }
+                } else {
+                    pal = 0;
+                }
+            } else {
+                pal = 0;
+            }
+            
             return (node) => {
                 if (node) {
                     select(node).call(
@@ -67,6 +80,7 @@ export const NewMapping = observer(
                                         top: (y / scale - pieceY / 4) | 0,
                                         left: (x / scale - pieceX / 4) | 0,
                                         link: link,
+                                        palette: pal,
                                     },
                                 );
                             })
@@ -120,10 +134,25 @@ export const NewMapping = observer(
                 newMapping: { active, piece },
             } = mappingState;
 
+            let pal = environment.custom.art_panel_palette;
+            if(pal != '') {
+                pal = parseInt(pal);
+                if(!isNaN(pal)) {
+                    if (pal < 0 || pal > 3) {
+                        pal = 0;
+                    }
+                } else {
+                    pal = 0;
+                }
+            } else {
+                pal = 0;
+            }
+
             this.mapDefz = Array.from({ length: 0x10 }, (_, i) => ({
                 art: currentTile,
                 width: (i % 4) + 1,
                 height: 0 | (i / 4 + 1),
+                palette: pal,
                 ...baseConfig,
             }));
 

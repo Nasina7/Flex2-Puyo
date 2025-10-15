@@ -380,6 +380,10 @@ export const FileObject = observer(({ obj }) => {
                 <SaveLoad load={loadPalettes} save={savePalettes} />
             </div>
             <ErrorMsg error={paletteError} />
+            <div className="menu-item">
+                <Item>Default Palette</Item>
+                <Input store={environment.custom} accessor="art_panel_palette" />
+            </div>
             {obj.palettes.map((palette, i) => {
                 if (palette.blank) {
                     return (

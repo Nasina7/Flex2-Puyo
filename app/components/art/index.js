@@ -52,11 +52,25 @@ export const Art = observer(class Art extends DimensionsComponent {
                         const y = (0|(index / itemsPerRow)) * baseSize;
                         const shouldRender = index >= baseIndex && index < baseIndex + itemQty;
 
+                        let pal = environment.custom.art_panel_palette;
+                        if(pal != '') {
+                            pal = parseInt(pal);
+                            if(!isNaN(pal)) {
+                                if (pal < 0 || pal > 3) {
+                                    pal = 0;
+                                }
+                            } else {
+                                pal = 0;
+                            }
+                        } else {
+                            pal = 0;
+                        }
+
                         return shouldRender && (
                             <Tile
                                 key={index}
                                 data={tile}
-                                paletteLine={0}
+                                paletteLine={pal}
                                 scale={scale}
                                 onMouseDown={() => {
                                     mappingState.newMapping.active = true;

@@ -14,6 +14,10 @@ class Environment {
         dplcsEnabled: false,
     };
 
+    custom = {
+        art_panel_palette: 0,
+    }
+
     // palettes must use colours of the form #NNN
     palettes = defaultPalettes;
 
@@ -32,6 +36,7 @@ class Environment {
     constructor() {
         makeObservable(this, {
             config: observable,
+            custom: observable,
             palettes: observable,
             tiles: observable,
             mappings: observable,
