@@ -62,14 +62,20 @@ asm(({ addScript, importScript, writeMappings, writeDPLCs }) => {
   writeMappings(({ label, sprites, renderHex }) => {
     const list = [];
 
-    list.push(`${label}: mappingsTable`);
+    list.push(`${label}:\tmappingsTable`);
+	list.push("");
     sprites.forEach((_, i) => {
       list.push(`\tmappingsTableEntry.l\t${label}_${i}`);
     });
     list.push("");
+    list.push("; ---------------------------------------------------------------------------");
 
     sprites.forEach((sprite, i) => {
-      list.push(`${label}_${i}:\tspriteHeader`);
+      list.push("");
+	  list.push(`${label}_${i}:\tspriteHeader`);
+	  list.push("");
+	  list.push(`\t; X, Y, Width, Height, Tile, X Flip, Y Flip, Palette, Priority, Link`);
+	  list.push("");
 
       sprite.mappings.forEach((mapping) => {
         const pieceInfo = [
@@ -87,13 +93,16 @@ asm(({ addScript, importScript, writeMappings, writeDPLCs }) => {
           .map(renderHex)
           .join(", ");
 
-        list.push(` spritePiece ${pieceInfo}`);
+        list.push(`\tspritePiece ${pieceInfo}`);
       });
 
-      list.push(`${label}_${i}_End`);
       list.push("");
+	  list.push(`${label}_${i}_End`);
+      list.push("");
+	  list.push("; ---------------------------------------------------------------------------");
     });
 
+	list.push("");
     list.push("\teven");
 
     return list.join("\n");
