@@ -5,6 +5,7 @@ export class ObjectDef {
 
     name = 'object';
     palettes = [];
+    default_palette = 0;
     art = {
         path: '',
         compression: 'Uncompressed',
@@ -29,6 +30,7 @@ export class ObjectDef {
             format: observable,
             name: observable,
             palettes: observable,
+            default_palette: observable,
             art: observable,
             mappings: observable,
             dplcs: observable

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SVARS from 'sass-variables';
 import { observer } from 'mobx-react';
+import { environment } from '#store/environment';
 
 export const Input = observer(class Input extends Component {
 
@@ -11,6 +12,10 @@ export const Input = observer(class Input extends Component {
 
         this.props.onChange &&
         this.props.onChange(store[accessor]);
+        
+        if (accessor === "default_palette") {
+            environment.custom.art_panel_palette = e.target.value;
+        }
     }
 
     mutateNum = (num = 1) => {

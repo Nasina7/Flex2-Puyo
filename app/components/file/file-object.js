@@ -33,6 +33,8 @@ export const FileObject = observer(({ obj }) => {
 
     const toggleDPLCs = () => (obj.dplcs.enabled = !obj.dplcs.enabled);
 
+
+
     function ioWrap(filePath, setError, e, cb) {
         setError();
         if (scriptSafe && filePath) {
@@ -78,6 +80,7 @@ export const FileObject = observer(({ obj }) => {
             loadDPLCs({ target: loadRef.current.childNodes[2] });
         }
         loadPalettes({ target: loadRef.current.childNodes[3] });
+        environment.custom.art_panel_palette = obj.default_palette;
     }
 
     function saveObject() {
@@ -383,7 +386,7 @@ export const FileObject = observer(({ obj }) => {
             <ErrorMsg error={paletteError} />
             <div className="menu-item">
                 <Item>Default Palette</Item>
-                <Input store={environment.custom} accessor="art_panel_palette" />
+                <Input store={obj} accessor="default_palette" />
             </div>
             {obj.palettes.map((palette, i) => {
                 if (palette.blank) {
