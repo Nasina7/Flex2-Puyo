@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { environment } from '#store/environment';
+import { workspace } from '#store/workspace';
 import { spriteState } from './state';
 import { observer } from 'mobx-react';
 import { Sprite } from './sprite';
@@ -59,23 +60,55 @@ const SortableList = SortableContainer(
             const realWidth = width - parseInt(scrollbarWidth) - 2;
             const realItemsPerRow = Math.floor(realWidth / realBaseSize);
             const itemsPerRow = Math.max(1, realItemsPerRow);
-            const rowCount = Math.ceil(items.length / itemsPerRow);
+            let rowCount = Math.ceil(items.length / itemsPerRow);
             const remainder = !realItemsPerRow ? 0 : (realWidth % realBaseSize) / 2;
 
             const baseIndex = (0 | (scroll / realBaseSize)) * itemsPerRow;
             const itemQty = itemsPerRow * (height / realBaseSize) + itemsPerRow * 2;
+
+            let itemss = [];
+            let only_shown_frame = '';
+            if (workspace.project.nodeRef != null && (workspace.project.nodeRef.mappings.only_shown_frame) ) {
+                only_shown_frame = workspace.project.nodeRef.mappings.only_shown_frame;
+                if(only_shown_frame !== '') {
+                    only_shown_frame = parseInt(only_shown_frame);
+                    if(!isNaN(only_shown_frame)) {
+                        if (only_shown_frame < 0 || only_shown_frame >= items.length) {
+                            only_shown_frame = '';
+                        }
+                    } else {
+                        only_shown_frame = '';
+                    }
+                } else {
+                    only_shown_frame = '';
+                }
+            }
+
+            if (only_shown_frame !== '') {
+                rowCount = 1;
+                for (let i = 0; i < items.length; i++) {
+                    if (i == only_shown_frame) {
+                        itemss.push(items[i]);
+                    }
+                }
+            } else {
+                itemss = items;
+            }
 
             return (
                 <div
                     className="sprites"
                     style={{ height: rowCount * realBaseSize || 0 }}
                 >
-                    {items.map((value, index) => {
+                    {itemss.map((value, index) => {
                         // calculate positions
                         const x = remainder + (index % itemsPerRow) * realBaseSize;
                         const y = (0 | (index / itemsPerRow)) * realBaseSize;
+                        if (only_shown_frame != '') {
+                            index = only_shown_frame;
+                        }
 
-                        if (index >= baseIndex && index < baseIndex + itemQty) {
+                        if ((index >= baseIndex && index < baseIndex + itemQty) || only_shown_frame != '') {
                             return (
                                 <SortableItem
                                     key={`sprite-${index}`}

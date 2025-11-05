@@ -348,6 +348,10 @@ export const FileObject = observer(({ obj }) => {
                 <Item>Tile ID Offset</Item>
                 <Input store={obj.mappings} accessor="tile_offset" />
             </div>
+            <div className="menu-item">
+                <Item>Only Shown Frame</Item>
+                <Input store={obj.mappings} accessor="only_shown_frame" />
+            </div>
 
             {script.DPLCs && (
                 <>
