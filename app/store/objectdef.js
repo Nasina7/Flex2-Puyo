@@ -15,7 +15,7 @@ export class ObjectDef {
         path: '',
         label: '',
         tile_offset: 0x0,
-        only_shown_frame: '',
+        only_display_sprite: '',
     };
     dplcs = {
         enabled: false,

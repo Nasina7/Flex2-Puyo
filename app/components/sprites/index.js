@@ -67,27 +67,32 @@ const SortableList = SortableContainer(
             const itemQty = itemsPerRow * (height / realBaseSize) + itemsPerRow * 2;
 
             let itemss = [];
-            let only_shown_frame = '';
-            if (workspace.project.nodeRef != null && (workspace.project.nodeRef.mappings.only_shown_frame) ) {
-                only_shown_frame = workspace.project.nodeRef.mappings.only_shown_frame;
-                if(only_shown_frame !== '') {
-                    only_shown_frame = parseInt(only_shown_frame);
-                    if(!isNaN(only_shown_frame)) {
-                        if (only_shown_frame < 0 || only_shown_frame >= items.length) {
-                            only_shown_frame = '';
+            let only_display_sprite = '';
+            if (workspace.project.nodeRef != null && (workspace.project.nodeRef.mappings.only_display_sprite) ) {
+                only_display_sprite = workspace.project.nodeRef.mappings.only_display_sprite;
+                if(only_display_sprite !== '') {
+                    only_display_sprite = parseInt(only_display_sprite);
+                    if(!isNaN(only_display_sprite)) {
+                        if (only_display_sprite < 0 || only_display_sprite >= items.length) {
+                            only_display_sprite = '';
                         }
                     } else {
-                        only_shown_frame = '';
+                        only_display_sprite = '';
                     }
                 } else {
-                    only_shown_frame = '';
+                    only_display_sprite = '';
                 }
             }
 
-            if (only_shown_frame !== '') {
+            if (only_display_sprite !== '') {
                 rowCount = 1;
+
+                // This throws warnings into the Javascript console, but the thing I'm trying to implement seems to work anyway.
+                // I am way out of my depth to know how to fix the warnings, so here it will stay. (I know very little Javascript, and even less React stuff.)
+                environment.config.currentSprite = only_display_sprite;
+
                 for (let i = 0; i < items.length; i++) {
-                    if (i == only_shown_frame) {
+                    if (i == only_display_sprite) {
                         itemss.push(items[i]);
                     }
                 }
@@ -104,11 +109,11 @@ const SortableList = SortableContainer(
                         // calculate positions
                         const x = remainder + (index % itemsPerRow) * realBaseSize;
                         const y = (0 | (index / itemsPerRow)) * realBaseSize;
-                        if (only_shown_frame != '') {
-                            index = only_shown_frame;
+                        if (only_display_sprite != '') {
+                            index = only_display_sprite;
                         }
 
-                        if ((index >= baseIndex && index < baseIndex + itemQty) || only_shown_frame != '') {
+                        if ((index >= baseIndex && index < baseIndex + itemQty) || only_display_sprite != '') {
                             return (
                                 <SortableItem
                                     key={`sprite-${index}`}
