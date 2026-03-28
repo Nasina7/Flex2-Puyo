@@ -68,7 +68,7 @@ const SortableList = SortableContainer(
 
             let itemss = [];
             let only_display_sprite = '';
-            if (workspace.project.nodeRef != null && (workspace.project.nodeRef.mappings.only_display_sprite) ) {
+            if (workspace.project != null && workspace.project.nodeRef != null && (workspace.project.nodeRef.mappings.only_display_sprite) ) {
                 only_display_sprite = workspace.project.nodeRef.mappings.only_display_sprite;
                 if(only_display_sprite !== '') {
                     only_display_sprite = parseInt(only_display_sprite);
