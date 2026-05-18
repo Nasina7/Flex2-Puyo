@@ -63,48 +63,54 @@ asm(({ addScript, importScript, writeMappings, writeDPLCs }) => {
     const list = [];
 
     list.push(`${label}:\tmappingsTable`);
-	list.push("");
-    sprites.forEach((_, i) => {
-      list.push(`\tmappingsTableEntry.l\t${label}_${i}`);
+	  list.push("");
+    sprites.forEach((sprite, i) => {
+      if(sprite.mappings.length == 0) {
+        list.push('\tmappingsTableEntry.l\t$00000000');
+      } else {
+        list.push(`\tmappingsTableEntry.l\t${label}_${i}`);
+      }
     });
     list.push("");
     list.push("; ---------------------------------------------------------------------------");
 
     sprites.forEach((sprite, i) => {
-      list.push("");
-	  list.push(`${label}_${i}:\tspriteHeader`);
-	  list.push("");
-	  list.push(`\t; X, Y, Width, Height, Tile, X Flip, Y Flip, Palette, Priority, Link`);
-	  list.push("");
+      if(sprite.mappings.length != 0) {
+        list.push("");
+        list.push(`${label}_${i}:\tspriteHeader`);
+        list.push("");
+        list.push(`\t; X, Y, Width, Height, Tile, X Flip, Y Flip, Palette, Priority, Link`);
+        list.push("");
 
-      sprite.mappings.forEach((mapping) => {
-        const pieceInfo = [
-          mapping.left,
-          mapping.top,
-          mapping.width,
-          mapping.height,
-          mapping.art + sprites.tile_offset,
-          mapping.hflip,
-          mapping.vflip,
-          mapping.palette,
-          mapping.priority,
-          mapping.link,
-        ]
-          .map(renderHex)
-          .join(", ");
+        sprite.mappings.forEach((mapping) => {
+          const pieceInfo = [
+            mapping.left,
+            mapping.top,
+            mapping.width,
+            mapping.height,
+            mapping.art + sprites.tile_offset,
+            mapping.hflip,
+            mapping.vflip,
+            mapping.palette,
+            mapping.priority,
+            mapping.link,
+          ]
+            .map(renderHex)
+            .join(", ");
 
-        list.push(`\tspritePiece ${pieceInfo}`);
-      });
+          list.push(`\tspritePiece ${pieceInfo}`);
+        });
 
-      list.push("");
-	  list.push(`${label}_${i}_End`);
-      list.push("");
-	  list.push("; ---------------------------------------------------------------------------");
+        list.push("");
+        list.push(`${label}_${i}_End`);
+        list.push("");
+        list.push("; ---------------------------------------------------------------------------");
+      }
     });
 
-	list.push("");
-    list.push("\teven");
+    list.push("");
+      list.push("\teven");
 
-    return list.join("\n");
+      return list.join("\n");
   });
 });
