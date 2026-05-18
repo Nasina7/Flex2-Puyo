@@ -14,6 +14,9 @@ export const File = observer(class File extends Component {
         dialog
             .showOpenDialog({
                 title: `Choose ${this.props.label}`,
+                filters: [
+                    { name: 'Flex2 Project (.flex.json)', extensions: ['flex.json']}
+                ],
                 properties: ['openFile'],
             })
             .then(({ filePaths: [path] }) => path && this.update(path))
