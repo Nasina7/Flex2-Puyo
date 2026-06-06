@@ -14,6 +14,12 @@ __LABEL__ label *
 	dc.w ((__LABEL___End - __LABEL___Begin) / 8)
 __LABEL___Begin label *
     endm
+	
+spriteHeaderEnter macro {INTLABEL}
+__LABEL__ label *
+	dc.w ((__LABEL___End - __LABEL___Begin) / 8)
+__LABEL___Begin label *
+    endm
 
 spritePiece macro xpos,ypos,width,height,tile,xflip,yflip,pal,pri,lnk
 	dc.w	ypos
