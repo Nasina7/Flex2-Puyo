@@ -11,11 +11,21 @@ export const File = observer(class File extends Component {
     };
 
     openFile = () => {
+        let extensions = "";
+        for (let i = 0; i < this.props.filterextensions.length; i++) {
+            if (i == this.props.filterextensions.length - 1) {
+                extensions += `.${this.props.filterextensions[i]}`;
+            } else {
+                extensions += `.${this.props.filterextensions[i]} | `;
+            }
+        }
+
         dialog
             .showOpenDialog({
                 title: `Choose ${this.props.label}`,
                 filters: [
-                    { name: 'Flex2 Project (.flex.json)', extensions: ['flex.json']}
+                    { name: `${this.props.filtername} (${extensions})`, extensions: this.props.filterextensions},
+                    { name: 'All Files', extensions: ['*']}
                 ],
                 properties: ['openFile'],
             })

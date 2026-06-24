@@ -47,6 +47,8 @@ const Project = observer(() => {
                         }
                     }}
                     ext="flex.json"
+                    filtername="Flex2 Project"
+                    filterextensions={['flex.json']}
                     absolute
                 />
             </div>

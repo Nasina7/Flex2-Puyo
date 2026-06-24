@@ -325,6 +325,8 @@ export const FileObject = observer(({ obj }) => {
                 store={obj.art}
                 accessor="path"
                 absolute={isAbsolute}
+                filtername="Art File"
+                filterextensions={['unc', 'kos', 'nem', 'eni', 'sor']}
             />
             <hr color="gray"/>
             <div className="menu-item">
@@ -337,6 +339,8 @@ export const FileObject = observer(({ obj }) => {
                 store={obj.mappings}
                 accessor="path"
                 absolute={isAbsolute}
+                filtername="Mapping File"
+                filterextensions={['asm']}
             />
             {mappingsASM && (
                 <div className="menu-item">
@@ -371,6 +375,8 @@ export const FileObject = observer(({ obj }) => {
                                 store={obj.dplcs}
                                 accessor="path"
                                 absolute={isAbsolute}
+                                filtername="DPLC Mapping File"
+                                filterextensions={['asm']}
                             />
                             {dplcsASM && (
                                 <div className="menu-item">
@@ -424,6 +430,8 @@ export const FileObject = observer(({ obj }) => {
                             store={palette}
                             accessor="path"
                             absolute={isAbsolute}
+                            filtername="Palette File"
+                            filterextensions={['pal', 'bin']}
                         >
                             <div
                                 className="dashed-box new"
@@ -449,6 +457,8 @@ export const FileObject = observer(({ obj }) => {
                             });
                         }}
                         absolute={isAbsolute}
+                        filtername="Palette File"
+                        filterextensions={['pal', 'bin']}
                     >
                         <div
                             className="dashed-box new"
